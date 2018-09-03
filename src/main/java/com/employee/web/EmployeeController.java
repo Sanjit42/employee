@@ -3,12 +3,17 @@ package com.employee.web;
 import com.employee.domain.Employee;
 import com.employee.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class EmployeeController {
+
+  private Employee employee;
+
   @Autowired
   private EmployeeService employeeService;
 
@@ -19,5 +24,15 @@ public class EmployeeController {
     } catch (Exception e){
       e.getMessage();
     }
+  }
+
+  @GetMapping("/employee/{employeeId}")
+  public Employee getEmployee (@PathVariable Long employeeId) {
+    try {
+      employee = employeeService.getEmployeeById(employeeId);
+    } catch (Exception e){
+      e.getMessage();
+    }
+    return employee;
   }
 }

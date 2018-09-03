@@ -8,7 +8,7 @@ public class Employee {
   private String name;
 
   @NotBlank(message = "{Employee.employeeId.required}")
-  private String employeeId;
+  private Long employeeId;
 
 
   @NotBlank(message = "{Employee.role.required}")
@@ -31,11 +31,11 @@ public class Employee {
     this.name = name;
   }
 
-  public String getEmployeeId() {
+  public Long getEmployeeId() {
     return employeeId;
   }
 
-  public void setEmployeeId(String employeeId) {
+  public void setEmployeeId(Long employeeId) {
     this.employeeId = employeeId;
   }
 

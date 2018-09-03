@@ -21,7 +21,7 @@ public class EmployeeDto {
 
   @Column(unique = true, name = "employee_id")
   @Size(min = 5, max = 5)
-  private String employeeId;
+  private Long employeeId;
 
 
   @Column(name = "role")
@@ -72,11 +72,11 @@ public class EmployeeDto {
     this.name = name;
   }
 
-  public String getEmployeeId() {
+  public Long getEmployeeId() {
     return employeeId;
   }
 
-  public void setEmployeeId(String employeeId) {
+  public void setEmployeeId(Long employeeId) {
     this.employeeId = employeeId;
   }
 

@@ -1,5 +1,7 @@
 package com.employee.web.assembler;
 
+import java.util.Optional;
+
 import com.employee.domain.Employee;
 import com.employee.model.EmployeeDto;
 import lombok.experimental.UtilityClass;
@@ -17,5 +19,18 @@ public class EmployeeAssembler {
     employeeDto.setCurrentProject(employee.getCurrentProject());
 
     return employeeDto;
+  }
+
+  public static Employee toEntity(Optional<EmployeeDto> employeeDto) {
+    Employee employee = new Employee();
+
+    employee.setName(employeeDto.get().getName());
+    employee.setRole(employeeDto.get().getRole());
+    employee.setGender(employeeDto.get().getGender());
+    employee.setHomeOffice(employeeDto.get().getHomeOffice());
+    employee.setEmployeeId(employeeDto.get().getEmployeeId());
+    employee.setCurrentProject(employeeDto.get().getCurrentProject());
+
+    return employee;
   }
 }

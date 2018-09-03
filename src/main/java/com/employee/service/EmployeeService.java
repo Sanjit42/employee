@@ -1,5 +1,7 @@
 package com.employee.service;
 
+import java.util.Optional;
+
 import com.employee.domain.Employee;
 import com.employee.model.EmployeeDto;
 import com.employee.repository.EmployeeRepository;
@@ -16,5 +18,10 @@ public class EmployeeService {
   public void save(Employee employee) {
     EmployeeDto employeeDto = EmployeeAssembler.toDto(employee);
     employeeRepository.save(employeeDto);
+  }
+
+  public Employee getEmployeeById(Long employeeId) {
+    Optional<EmployeeDto> employee = employeeRepository.findByEmployeeId(employeeId);
+    return EmployeeAssembler.toEntity(employee);
   }
 }
