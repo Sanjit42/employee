@@ -1,6 +1,4 @@
-package com.employee.web.assembler;
-
-import java.util.Optional;
+package com.employee.service.assembler;
 
 import com.employee.domain.Employee;
 import com.employee.model.EmployeeDto;
@@ -21,15 +19,15 @@ public class EmployeeAssembler {
     return employeeDto;
   }
 
-  public static Employee toEntity(Optional<EmployeeDto> employeeDto) {
+  public static Employee toEntity(EmployeeDto employeeDto) {
     Employee employee = new Employee();
 
-    employee.setName(employeeDto.get().getName());
-    employee.setRole(employeeDto.get().getRole());
-    employee.setGender(employeeDto.get().getGender());
-    employee.setHomeOffice(employeeDto.get().getHomeOffice());
-    employee.setEmployeeId(employeeDto.get().getEmployeeId());
-    employee.setCurrentProject(employeeDto.get().getCurrentProject());
+    employee.setName(employeeDto.getName());
+    employee.setRole(employeeDto.getRole());
+    employee.setGender(employeeDto.getGender());
+    employee.setHomeOffice(employeeDto.getHomeOffice());
+    employee.setEmployeeId(employeeDto.getEmployeeId());
+    employee.setCurrentProject(employeeDto.getCurrentProject());
 
     return employee;
   }
