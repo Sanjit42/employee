@@ -26,7 +26,7 @@ public class EmployeeAssembler {
     employee.setRole(employeeDto.getRole());
     employee.setGender(employeeDto.getGender());
     employee.setHomeOffice(employeeDto.getHomeOffice());
-    employee.setEmployeeId(employeeDto.getEmployeeId());
+    employee.setEmployeeId(12345L);
     employee.setCurrentProject(employeeDto.getCurrentProject());
 
     return employee;

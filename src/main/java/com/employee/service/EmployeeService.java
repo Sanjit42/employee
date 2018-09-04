@@ -16,9 +16,9 @@ public class EmployeeService {
   @Autowired
   private EmployeeRepository employeeRepository;
 
-  public void save(Employee employee) {
+  public Employee save(Employee employee) {
     EmployeeDto employeeDto = EmployeeAssembler.toDto(employee);
-    employeeRepository.save(employeeDto);
+    return  EmployeeAssembler.toEntity(employeeRepository.save(employeeDto));
   }
 
   public Employee getEmployee(Long employeeId) {
