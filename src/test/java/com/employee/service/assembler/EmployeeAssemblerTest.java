@@ -1,6 +1,7 @@
 package com.employee.service.assembler;
 
 import com.employee.domain.Employee;
+import com.employee.domain.EmployeeResponse;
 import com.employee.model.EmployeeDto;
 import org.junit.Test;
 
@@ -18,30 +19,27 @@ public class EmployeeAssemblerTest {
     employeeDto.setGender("Male");
     employeeDto.setEmployeeId(12345L);
 
-    Employee employee = EmployeeAssembler.toEntity(employeeDto);
+    EmployeeResponse employeeResponse = EmployeeAssembler.toEntity(employeeDto);
 
-    assertEquals("BA", employee.getRole());
-    assertEquals("Test", employee.getName());
-    assertEquals("Hyderabad", employee.getHomeOffice());
-
+    assertEquals("Hyderabad", employeeResponse.getHomeOffice());
+    assertEquals("Test", employeeResponse.getName());
   }
 
   @Test
   public void shouldReturnDtoWithSameValuesAsEntity() {
-    Employee employee = new Employee();
-
-    employee.setRole("BA");
-    employee.setName("Test");
-    employee.setHomeOffice("Hyderabad");
-    employee.setCurrentProject("ABC");
-    employee.setGender("Male");
-    employee.setEmployeeId(12345L);
+    Employee employee = new Employee(
+            "Employee",
+            12345L,
+            "Dev",
+            "Male",
+            "Hyderabad",
+            "t"
+    );
 
     EmployeeDto employeeDto = EmployeeAssembler.toDto(employee);
 
-    assertEquals("BA", employeeDto.getRole());
-    assertEquals("Test", employeeDto.getName());
+    assertEquals("Dev", employeeDto.getRole());
+    assertEquals("Employee", employeeDto.getName());
     assertEquals("Hyderabad", employeeDto.getHomeOffice());
-
   }
 }

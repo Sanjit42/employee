@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.employee.domain.Employee;
+import com.employee.domain.EmployeeResponse;
 import com.employee.model.EmployeeDto;
 import com.employee.repository.EmployeeRepository;
 import com.employee.service.EmployeeService;
 import com.employee.service.assembler.EmployeeAssembler;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -27,6 +29,8 @@ import static org.springframework.http.HttpStatus.OK;
 @SpringBootTest
 public class EmployeeControllerTest {
 
+  private Employee employee;
+
   @Mock
   private EmployeeService employeeService;
 
@@ -36,89 +40,108 @@ public class EmployeeControllerTest {
   @InjectMocks
   private EmployeeController employeeController;
 
+  @Before
+  public void setUp() throws Exception {
+    employee = new Employee(
+            "employee",
+            12345L,
+            "Dev",
+            "Male",
+            "Hyderabad",
+            "t"
+    );
+  }
+
   @Test
   public void shouldThroughErrorIfRequestDataIsInvalid() {
 
-    Employee employee = new Employee();
-
-    employee.setRole("BA");
-    employee.setGender("Male");
-    employee.setCurrentProject("ABC");
-    employee.setEmployeeId(12345L);
-
-    ResponseEntity<Employee> response = employeeController.addEmployee(employee);
+    ResponseEntity<EmployeeResponse> response = employeeController.addEmployee(employee);
 
     assertThat(response.getStatusCode(), is(BAD_REQUEST));
   }
 
   @Test
   public void shouldSaveEmployeeWhenRequestDataAreValid() {
-    Employee employee = new Employee();
+    Employee employee = new Employee(
+            "Employee",
+            null,
+            "Dev",
+            "Male",
+            "Hyderabad",
+            "t"
+    );
 
-    employee.setRole("BA");
-    employee.setGender("Male");
-    employee.setCurrentProject("ABC");
+    EmployeeResponse employeeResponse = new EmployeeResponse();
+    employeeResponse.setName("Employee");
+    employeeResponse.setCurrentProject("Test");
+    employeeResponse.setEmployeeId(null);
+    employeeResponse.setGender("Female");
 
     EmployeeDto employeeDto = EmployeeAssembler.toDto(employee);
 
-    when(employeeService.save(employee)).thenReturn(employee);
+    when(employeeService.save(employee)).thenReturn(employeeResponse);
     when(employeeRepository.save(employeeDto)).thenReturn(employeeDto);
 
-    ResponseEntity<Employee> response = employeeController.addEmployee(employee);
+    ResponseEntity<EmployeeResponse> response = employeeController.addEmployee(employee);
 
     assertThat(response.getStatusCode(), is(OK));
   }
 
   @Test
   public void shouldFindEmployeeByEmployeeId() {
-    Employee employee = new Employee();
-    employee.setRole("BA");
-    employee.setGender("Male");
-    employee.setEmployeeId(12345L);
-    employee.setCurrentProject("ABC");
 
     EmployeeDto employeeDto = EmployeeAssembler.toDto(employee);
 
-    when(employeeService.getEmployee(employee.getEmployeeId())).thenReturn(employee);
+    EmployeeResponse employeeResponse = new EmployeeResponse();
+    employeeResponse.setName("Employee");
+    employeeResponse.setCurrentProject("Test");
+    employeeResponse.setEmployeeId(12345L);
+    employeeResponse.setGender("Female");
+
+    when(employeeService.getEmployee(employee.getEmployeeId())).thenReturn(employeeResponse);
     when(employeeRepository.findByEmployeeId(employee.getEmployeeId())).thenReturn(employeeDto);
 
-    Employee result = employeeController.getEmployee(12345L);
+    EmployeeResponse result = employeeController.getEmployee(12345L);
 
-    assertEquals(employee.getEmployeeId(), result.getEmployeeId());
-    assertEquals("Male", result.getGender());
+    assertEquals(employeeResponse.getEmployeeId(), result.getEmployeeId());
+    assertEquals("Female", result.getGender());
   }
 
   @Test
   public void shouldReturnAllEmployees() {
-    Employee employee = new Employee();
-    employee.setRole("Dev");
-    employee.setGender("Male");
-    employee.setName("employee");
-    employee.setEmployeeId(12345L);
-    employee.setCurrentProject("ABC");
-
-    Employee employee2 = new Employee();
-    employee2.setRole("BA");
-    employee2.setGender("Female");
-    employee2.setName("employee2");
-    employee2.setEmployeeId(12346L);
-    employee2.setCurrentProject("DEF");
 
     List employeeList = new ArrayList();
-    employeeList.add(employee);
-    employeeList.add(employee2);
+
+    EmployeeResponse employeeResponse = new EmployeeResponse();
+    employeeResponse.setName("Employee");
+    employeeResponse.setEmployeeId(12345L);
+    employeeResponse.setRole("Dev");
+    employeeResponse.setGender("Male");
+    employeeResponse.setCurrentProject("ABC");
+    employeeResponse.setHomeOffice("Hyderabad");
+
+    EmployeeResponse employeeResponse2 = new EmployeeResponse();
+    employeeResponse2.setName("Employee2");
+    employeeResponse2.setEmployeeId(12345L);
+    employeeResponse2.setRole("Dev");
+    employeeResponse2.setGender("Female");
+    employeeResponse2.setCurrentProject("DEF");
+    employeeResponse2.setHomeOffice("Hyderabad");
+
+    employeeList.add(employeeResponse);
+    employeeList.add(employeeResponse2);
 
     when(employeeService.getEmployees()).thenReturn(employeeList);
     when(employeeRepository.findAll()).thenReturn(employeeList);
 
-    List<Employee> result = employeeController.getEmployees();
+    List<EmployeeResponse> result = employeeController.getEmployees();
 
     assertEquals(2, result.size());
-    assertEquals("employee", result.get(0).getName());
+    assertEquals("Employee", result.get(0).getName());
     assertEquals("Male", result.get(0).getGender());
     assertEquals("ABC", result.get(0).getCurrentProject());
 
-    assertEquals("employee2", result.get(1).getName());
+    assertEquals("Employee2", result.get(1).getName());
     assertEquals("Female", result.get(1).getGender());
     assertEquals("DEF", result.get(1).getCurrentProject());
   }

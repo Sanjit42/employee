@@ -1,6 +1,7 @@
 package com.employee.service.assembler;
 
 import com.employee.domain.Employee;
+import com.employee.domain.EmployeeResponse;
 import com.employee.model.EmployeeDto;
 import lombok.experimental.UtilityClass;
 
@@ -19,16 +20,16 @@ public class EmployeeAssembler {
     return employeeDto;
   }
 
-  public static Employee toEntity(EmployeeDto employeeDto) {
-    Employee employee = new Employee();
+  public static EmployeeResponse toEntity(EmployeeDto employeeDto) {
 
-    employee.setName(employeeDto.getName());
-    employee.setRole(employeeDto.getRole());
-    employee.setGender(employeeDto.getGender());
-    employee.setHomeOffice(employeeDto.getHomeOffice());
-    employee.setEmployeeId(12345L);
-    employee.setCurrentProject(employeeDto.getCurrentProject());
+    EmployeeResponse employeeResponse = new EmployeeResponse();
+    employeeResponse.setName(employeeDto.getName());
+    employeeResponse.setRole(employeeDto.getRole());
+    employeeResponse.setGender(employeeDto.getGender());
+    employeeResponse.setHomeOffice(employeeDto.getHomeOffice());
+    employeeResponse.setEmployeeId(12345L);
+    employeeResponse.setCurrentProject(employeeDto.getCurrentProject());
 
-    return employee;
+    return employeeResponse;
   }
 }

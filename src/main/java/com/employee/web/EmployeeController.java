@@ -3,6 +3,7 @@ package com.employee.web;
 import java.util.List;
 
 import com.employee.domain.Employee;
+import com.employee.domain.EmployeeResponse;
 import com.employee.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,19 +19,19 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 public class EmployeeController {
 
-  private Employee employee;
-  private List<Employee> employees;
+  private EmployeeResponse employee;
+  private List<EmployeeResponse> employees;
 
   @Autowired
   private EmployeeService employeeService;
 
   @RequestMapping(path = "/employee/add")
-  public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
+  public ResponseEntity<EmployeeResponse> addEmployee(@RequestBody Employee employee) {
     try {
       if (employee.getEmployeeId() != null) {
         return new ResponseEntity<>(BAD_REQUEST);
       }
-      Employee responseEmployee = employeeService.save(employee);
+      EmployeeResponse responseEmployee = employeeService.save(employee);
 
       return new ResponseEntity<>(responseEmployee, OK);
 
@@ -40,7 +41,7 @@ public class EmployeeController {
   }
 
   @GetMapping("/employee/{employeeId}")
-  public Employee getEmployee(@PathVariable Long employeeId) {
+  public EmployeeResponse getEmployee(@PathVariable Long employeeId) {
     try {
       employee = employeeService.getEmployee(employeeId);
     } catch (Exception e) {
@@ -50,7 +51,7 @@ public class EmployeeController {
   }
 
   @GetMapping("/employees")
-  public List<Employee> getEmployees() {
+  public List<EmployeeResponse> getEmployees() {
     try {
       employees = employeeService.getEmployees();
     } catch (Exception e) {

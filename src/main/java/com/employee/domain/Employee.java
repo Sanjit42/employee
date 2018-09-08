@@ -1,7 +1,9 @@
 package com.employee.domain;
 
 import javax.validation.constraints.NotBlank;
+import lombok.Value;
 
+@Value
 public class Employee {
 
   @NotBlank(message = "{Employee.name.required}")
@@ -9,7 +11,6 @@ public class Employee {
 
   @NotBlank(message = "{Employee.employeeId.required}")
   private Long employeeId;
-
 
   @NotBlank(message = "{Employee.role.required}")
   private String role;
@@ -22,52 +23,4 @@ public class Employee {
 
   @NotBlank(message = "{Employee.currentProject.required}")
   private String currentProject;
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public Long getEmployeeId() {
-    return employeeId;
-  }
-
-  public void setEmployeeId(Long employeeId) {
-    this.employeeId = employeeId;
-  }
-
-  public String getRole() {
-    return role;
-  }
-
-  public void setRole(String role) {
-    this.role = role;
-  }
-
-  public String getGender() {
-    return gender;
-  }
-
-  public void setGender(String gender) {
-    this.gender = gender;
-  }
-
-  public String getHomeOffice() {
-    return homeOffice;
-  }
-
-  public void setHomeOffice(String homeOffice) {
-    this.homeOffice = homeOffice;
-  }
-
-  public String getCurrentProject() {
-    return currentProject;
-  }
-
-  public void setCurrentProject(String currentProject) {
-    this.currentProject = currentProject;
-  }
 }
