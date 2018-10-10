@@ -27,18 +27,17 @@ public class EmployeeAssemblerTest {
 
   @Test
   public void shouldReturnDtoWithSameValuesAsEntity() {
-    Employee employee = new Employee(
-            "Employee",
-            12345L,
-            "Dev",
-            "Male",
-            "Hyderabad",
-            "t"
-    );
+    Employee employee = new Employee();
+    employee.setRole("BA");
+    employee.setName("Employee");
+    employee.setHomeOffice("Hyderabad");
+    employee.setCurrentProject("ABC");
+    employee.setGender("Male");
+    employee.setEmployeeId(12345L);
 
     EmployeeDto employeeDto = EmployeeAssembler.toDto(employee);
 
-    assertEquals("Dev", employeeDto.getRole());
+    assertEquals("BA", employeeDto.getRole());
     assertEquals("Employee", employeeDto.getName());
     assertEquals("Hyderabad", employeeDto.getHomeOffice());
   }

@@ -4,9 +4,11 @@ import java.util.List;
 
 import com.employee.domain.Employee;
 import com.employee.domain.EmployeeResponse;
+import com.employee.domain.EmployeeSkills;
 import com.employee.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,12 +23,13 @@ public class EmployeeController {
 
   private EmployeeResponse employee;
   private List<EmployeeResponse> employees;
+  private List<EmployeeSkills>  employeesSkills;
 
   @Autowired
   private EmployeeService employeeService;
 
-  @RequestMapping(path = "/employee/add")
-  public ResponseEntity<EmployeeResponse> addEmployee(@RequestBody Employee employee) {
+  @RequestMapping(path = "/employees")
+  public ResponseEntity<EmployeeResponse> saveEmployee(@RequestBody Employee employee) {
     try {
       if (employee.getEmployeeId() != null) {
         return new ResponseEntity<>(BAD_REQUEST);
@@ -40,16 +43,7 @@ public class EmployeeController {
     }
   }
 
-  @GetMapping("/employee/{employeeId}")
-  public EmployeeResponse getEmployee(@PathVariable Long employeeId) {
-    try {
-      employee = employeeService.getEmployee(employeeId);
-    } catch (Exception e) {
-      e.getMessage();
-    }
-    return employee;
-  }
-
+  @CrossOrigin
   @GetMapping("/employees")
   public List<EmployeeResponse> getEmployees() {
     try {
@@ -58,5 +52,16 @@ public class EmployeeController {
       e.getMessage();
     }
     return employees;
+  }
+
+  @CrossOrigin
+  @GetMapping("/employees/skills")
+  public List<EmployeeSkills> getEmployeesSkills(){
+    try {
+      employeesSkills = employeeService.getEmployeesSkills();
+    } catch (Exception e){
+      e.getStackTrace();
+    }
+    return employeesSkills;
   }
 }

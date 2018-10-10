@@ -4,22 +4,16 @@ import com.employee.domain.skills.Consulting;
 import com.employee.domain.skills.Domain;
 import com.employee.domain.skills.Technical;
 import com.employee.domain.skills.Testing;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class EmployeeResponse {
-  private String name;
+@Component
+public class EmployeeSkills {
   private Long employeeId;
-  private String role;
-  private String gender;
-  private String homeOffice;
-  private String currentProject;
 
   private Consulting consulting;
   private Domain domain;
   private Technical technical;
   private Testing testing;
 }
-

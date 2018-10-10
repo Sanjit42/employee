@@ -1,15 +1,14 @@
 package com.employee.domain;
 
 import javax.validation.constraints.NotBlank;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 public class Employee {
 
   @NotBlank(message = "{Employee.name.required}")
   private String name;
 
-  @NotBlank(message = "{Employee.employeeId.required}")
   private Long employeeId;
 
   @NotBlank(message = "{Employee.role.required}")

@@ -22,7 +22,6 @@ public class EmployeeDto {
   private String name;
 
   @Column(unique = true, name = "employee_id")
-  @Size(min = 5, max = 5)
   private Long employeeId;
 
 

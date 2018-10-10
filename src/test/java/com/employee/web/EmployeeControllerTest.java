@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.employee.domain.Employee;
 import com.employee.domain.EmployeeResponse;
+import com.employee.domain.EmployeeSkills;
+import com.employee.domain.skills.Domain;
+import com.employee.domain.skills.Technical;
 import com.employee.model.EmployeeDto;
 import com.employee.repository.EmployeeRepository;
 import com.employee.service.EmployeeService;
@@ -41,35 +44,32 @@ public class EmployeeControllerTest {
   private EmployeeController employeeController;
 
   @Before
-  public void setUp() throws Exception {
-    employee = new Employee(
-            "employee",
-            12345L,
-            "Dev",
-            "Male",
-            "Hyderabad",
-            "t"
-    );
+  public void setUp() {
+    employee = new Employee();
+    employee.setName("Employee");
+    employee.setRole("Dev");
+    employee.setGender("Male");
+    employee.setHomeOffice("Hyderabad");
+    employee.setCurrentProject("Step");
+    employee.setEmployeeId(12345L);
   }
 
   @Test
   public void shouldThroughErrorIfRequestDataIsInvalid() {
 
-    ResponseEntity<EmployeeResponse> response = employeeController.addEmployee(employee);
+    ResponseEntity<EmployeeResponse> response = employeeController.saveEmployee(employee);
 
     assertThat(response.getStatusCode(), is(BAD_REQUEST));
   }
 
   @Test
   public void shouldSaveEmployeeWhenRequestDataAreValid() {
-    Employee employee = new Employee(
-            "Employee",
-            null,
-            "Dev",
-            "Male",
-            "Hyderabad",
-            "t"
-    );
+    Employee employee = new Employee();
+    employee.setName("Employee");
+    employee.setRole("Dev");
+    employee.setGender("Male");
+    employee.setHomeOffice("Hyderabad");
+    employee.setCurrentProject("Step");
 
     EmployeeResponse employeeResponse = new EmployeeResponse();
     employeeResponse.setName("Employee");
@@ -82,29 +82,9 @@ public class EmployeeControllerTest {
     when(employeeService.save(employee)).thenReturn(employeeResponse);
     when(employeeRepository.save(employeeDto)).thenReturn(employeeDto);
 
-    ResponseEntity<EmployeeResponse> response = employeeController.addEmployee(employee);
+    ResponseEntity<EmployeeResponse> response = employeeController.saveEmployee(employee);
 
     assertThat(response.getStatusCode(), is(OK));
-  }
-
-  @Test
-  public void shouldFindEmployeeByEmployeeId() {
-
-    EmployeeDto employeeDto = EmployeeAssembler.toDto(employee);
-
-    EmployeeResponse employeeResponse = new EmployeeResponse();
-    employeeResponse.setName("Employee");
-    employeeResponse.setCurrentProject("Test");
-    employeeResponse.setEmployeeId(12345L);
-    employeeResponse.setGender("Female");
-
-    when(employeeService.getEmployee(employee.getEmployeeId())).thenReturn(employeeResponse);
-    when(employeeRepository.findByEmployeeId(employee.getEmployeeId())).thenReturn(employeeDto);
-
-    EmployeeResponse result = employeeController.getEmployee(12345L);
-
-    assertEquals(employeeResponse.getEmployeeId(), result.getEmployeeId());
-    assertEquals("Female", result.getGender());
   }
 
   @Test
@@ -144,5 +124,42 @@ public class EmployeeControllerTest {
     assertEquals("Employee2", result.get(1).getName());
     assertEquals("Female", result.get(1).getGender());
     assertEquals("DEF", result.get(1).getCurrentProject());
+  }
+
+  @Test
+  public void shouldGetAllEmployeeSkillsData() {
+    Domain domain = new Domain();
+    domain.setEducation(2);
+    domain.setGovernment(1);
+
+    Domain domain2 = new Domain();
+    domain2.setEducation(4);
+    domain2.setGovernment(2);
+
+    Technical technical = new Technical();
+    technical.setAWS(1);
+    technical.setJava(4);
+
+    Technical technical2 = new Technical();
+    technical2.setAWS(2);
+    technical2.setJava(3);
+
+    EmployeeSkills employeeSkills = new EmployeeSkills();
+    employeeSkills.setDomain(domain);
+    employeeSkills.setTechnical(technical);
+
+    EmployeeSkills employeeSkills2 = new EmployeeSkills();
+    employeeSkills2.setDomain(domain);
+    employeeSkills2.setTechnical(technical);
+
+    ArrayList<EmployeeSkills> skillList = new ArrayList();
+    skillList.add(employeeSkills);
+    skillList.add(employeeSkills2);
+
+    when(employeeService.getEmployeesSkills()).thenReturn(skillList);
+
+    List<EmployeeSkills> employeesSkills = employeeController.getEmployeesSkills();
+
+    assertEquals(employeesSkills.size(), 2);
   }
 }
