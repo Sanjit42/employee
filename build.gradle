@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter')
-    compile('org.projectlombok:lombok:1.18.0')
+    compile('org.projectlombok:lombok:1.18.8')
     compile('mysql:mysql-connector-java:5.1.28')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-web')
