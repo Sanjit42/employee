@@ -10,10 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -22,12 +21,10 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 public class EmployeeController {
 
-  private EmployeeResponse employee;
   private List<EmployeeResponse> employees;
-  private List<EmployeeSkills>  employeesSkills;
+  private List<EmployeeSkills> employeesSkills;
 
-  @Autowired
-  private EmployeeService employeeService;
+  @Autowired private EmployeeService employeeService;
 
   @CrossOrigin
   @PostMapping("/employee")
@@ -58,12 +55,18 @@ public class EmployeeController {
 
   @CrossOrigin
   @GetMapping("/employees/skills")
-  public List<EmployeeSkills> getEmployeesSkills(){
+  public List<EmployeeSkills> getEmployeesSkills() {
     try {
       employeesSkills = employeeService.getEmployeesSkills();
-    } catch (Exception e){
+    } catch (Exception e) {
       e.getStackTrace();
     }
     return employeesSkills;
+  }
+
+  @CrossOrigin
+  @PutMapping("/employee/skills")
+  public EmployeeSkills updateSkills(@RequestBody EmployeeSkills employeeSkills) {
+    return employeeService.updateSkills(employeeSkills);
   }
 }

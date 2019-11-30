@@ -1,26 +1,18 @@
 package com.employee.domain.skills;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.Embeddable;
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 
-@Entity(name = "domain")
 @Data
+@Embeddable
 public class Domain {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
 
   @Column(name = "government")
   private int government;
 
   @Column(name = "education")
+  @ColumnDefault("0")
   private int education;
-
-  @Column(name = "employee_id")
-  private Long employeeId;
 }
